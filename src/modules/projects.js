@@ -23,16 +23,23 @@ export function loadProjects() {
   const addProjectInputButton = document.querySelector(
     "#addProjectInputButton"
   );
+  const cancelProjectInputButton = document.querySelector(
+    "#cancelProjectInputButton"
+  );
   const projectsPreview = document.querySelector("#projectsPreview");
   const projectTitle = document.querySelector("#projectTitle");
   const projectTasks = document.querySelector("#projectTasks");
   const addTaskButton = document.querySelector("#addTaskButton");
   let idCount = 0;
 
+  cancelProjectInputButton.addEventListener("click", () => {
+    addProjectForm.style.display = "none";
+    addProjectButton.style.display = "flex";
+  });
+
   addProjectButton.addEventListener("click", () => {
     addProjectButton.style.display = "none";
-    addProjectInput.style.display = "flex";
-    addProjectInputButton.style.display = "flex";
+    addProjectForm.style.display = "flex";
 
     addProjectInput.value = "";
   });
@@ -47,16 +54,40 @@ export function loadProjects() {
     }
 
     // Fix visibility
-    addProjectInput.style.display = "none";
-    addProjectInputButton.style.display = "none";
+    addProjectForm.style.display = "none";
     addProjectButton.style.display = "flex";
+    projectsPreview.style.display = "flex";
+
+    // Get project name
+    const newProjectName = addProjectInput.value;
+
+    const newProjectPreview = document.createElement("div");
+    const newProjectContainer = document.createElement("div");
+
+    // Add arrow icon
+    const arrowIcon = document.createElement("i");
+    arrowIcon.className = "fa-solid fa-arrow-right";
+    newProjectContainer.appendChild(arrowIcon);
 
     // Add project to sidebar
-    const newProjectName = addProjectInput.value;
-    const newProjectPreview = document.createElement("div");
     newProjectPreview.className = idCount;
+    newProjectPreview.id = "projectName";
     newProjectPreview.textContent = newProjectName;
-    projectsPreview.appendChild(newProjectPreview);
+    newProjectContainer.id = "newProjectContainer";
+
+    projectsPreview.appendChild(newProjectContainer);
+    newProjectContainer.appendChild(newProjectPreview);
+
+    // Add closing icon
+    const closingIcon = document.createElement("i");
+    closingIcon.className = "fa-solid fa-xmark";
+    newProjectContainer.appendChild(closingIcon);
+
+    // Closing icon event listener
+    closingIcon.addEventListener("click", () => {
+      projects.splice(projects[newProjectPreview.className].id, 1);
+      newProjectContainer.remove();
+    });
 
     // Push project to array
     const newProject = new Project(newProjectName, idCount);

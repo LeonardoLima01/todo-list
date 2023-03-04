@@ -22,6 +22,10 @@ export function loadHomepage() {
   sidebarTitle.textContent = "Projects";
   sidebar.appendChild(sidebarTitle);
 
+  const projectsPreview = document.createElement("div");
+  projectsPreview.id = "projectsPreview";
+  sidebar.appendChild(projectsPreview);
+
   const addProjectButton = document.createElement("button");
   addProjectButton.id = "addProjectButton";
   addProjectButton.textContent = "+ Add Project";
@@ -35,14 +39,20 @@ export function loadHomepage() {
   addProjectInput.id = "addProjectInput";
   addProjectForm.appendChild(addProjectInput);
 
+  const projectButtons = document.createElement("div");
+  projectButtons.id = "projectButtons";
+  addProjectForm.appendChild(projectButtons);
+
   const addProjectInputButton = document.createElement("button");
   addProjectInputButton.id = "addProjectInputButton";
   addProjectInputButton.textContent = "Add";
-  addProjectForm.appendChild(addProjectInputButton);
+  projectButtons.appendChild(addProjectInputButton);
 
-  const projectsPreview = document.createElement("div");
-  projectsPreview.id = "projectsPreview";
-  sidebar.appendChild(projectsPreview);
+  const cancelProjectInputButton = document.createElement("button");
+  cancelProjectInputButton.id = "cancelProjectInputButton";
+  cancelProjectInputButton.textContent = "Cancel";
+  cancelProjectInputButton.type = "button";
+  projectButtons.appendChild(cancelProjectInputButton);
 
   const content = document.createElement("div");
   content.id = "content";
@@ -55,6 +65,10 @@ export function loadHomepage() {
   const projectTitle = document.createElement("div");
   projectTitle.id = "projectTitle";
   projectDisplay.appendChild(projectTitle);
+
+  const projectTasks = document.createElement("div");
+  projectTasks.id = "projectTasks";
+  projectDisplay.appendChild(projectTasks);
 
   const addTaskButton = document.createElement("button");
   addTaskButton.id = "addTaskButton";
@@ -73,8 +87,4 @@ export function loadHomepage() {
   addTaskInputButton.id = "addTaskInputButton";
   addTaskInputButton.textContent = "+ Add Task";
   addTaskForm.appendChild(addTaskInputButton);
-
-  const projectTasks = document.createElement("div");
-  projectTasks.id = "projectTasks";
-  projectDisplay.appendChild(projectTasks);
 }

@@ -1,11 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Shantell+Sans:wght@300&display=swap");
+
+* {
+  box-sizing: border-box;
+  font-family: "Shantell Sans", cursive;
+}
+
 html,
 body {
   height: 100%;
   margin: 0;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 #container {
@@ -36,24 +39,22 @@ body {
 }
 
 #sidebar {
-  width: 20%;
+  width: 23%;
   background-color: rgb(189, 189, 189);
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 2vw;
+  padding: 1vw 2vw 0 2vw;
 }
 
 #sidebarTitle {
   font-size: 4vw;
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
 #addProjectButton {
   padding: 0.75vw;
-  width: 10vw;
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -64,45 +65,108 @@ body {
 }
 
 #addProjectForm {
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 0.75vw;
   justify-content: center;
-  align-items: center;
 }
 
 #addProjectInput {
-  display: none;
+  display: flex;
   padding: 0.5vw;
-  width: 70%;
+  width: 100%;
   border-radius: 5px;
   outline: none;
+  font-size: 1.5vw;
+}
+
+#projectButtons {
+  display: flex;
+  width: 100%;
+  gap: 1.5vw;
 }
 
 #addProjectInputButton {
   padding: 0.5vw;
-  background-color: green;
+  background-color: rgb(28, 197, 28);
   border-radius: 5px;
   width: 40%;
   color: #eee;
   font-weight: bold;
-  font-size: 1vw;
-  display: none;
+  font-size: 1.2vw;
+  display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  flex: 1;
+  border: 0;
 }
 
-#projectsPreview {
+#addProjectInputButton:hover {
+  background-color: rgb(66, 209, 66);
+}
+
+#cancelProjectInputButton {
+  padding: 0.5vw;
+  background-color: rgb(218, 111, 111);
+  border-radius: 5px;
+  width: 40%;
+  color: #eee;
+  font-weight: bold;
+  font-size: 1.2vw;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  flex: 1;
+  border: 0;
+}
+
+#cancelProjectInputButton:hover {
+  background-color: red;
+}
+#projectsPreview {
+  display: none;
   flex-direction: column;
   gap: 1.5vw;
   font-size: 1.5vw;
   cursor: pointer;
 }
 
-#projectsPreview > div:hover {
-  color: red;
+#newProjectContainer {
+  display: flex;
+  gap: 1.75vw;
+  align-items: center;
+  font-size: 2.25vw;
+  padding: 0.25vw 1vw;
+  border-radius: 5px;
+}
+
+#newProjectContainer:hover {
+  background-color: #b3b3b3;
+}
+
+#newProjectContainer:hover > .fa-arrow-right {
+  color: rgb(255, 153, 0);
+  transform: translateX(1vw);
+}
+
+.fa-arrow-right {
+  transition: color 0.5s, transform 0.5s;
+  padding-top: 0.25vw;
+}
+
+#projectName {
+  margin-right: auto;
+}
+
+.fa-xmark {
+  padding-top: 0.4vw;
+  transition: color 0.5s;
+}
+
+.fa-xmark:hover {
+  color: rgb(255, 153, 0);
 }
 
 #content {
@@ -127,16 +191,18 @@ body {
   width: 100%;
   display: flex;
   align-items: center;
-  font-size: 8vw;
+  font-size: 10vh;
 }
 
 #projectTasks {
-  flex: 1;
+  display: none;
+  flex-direction: column;
 }
 
 #projectTasks > div {
-  font-size: 3vh;
+  font-size: 4vh;
   padding: 1vh;
+  width: 100%;
 }
 
 #addTaskButton {
@@ -161,6 +227,7 @@ body {
   padding: 0.5vw;
   border-radius: 5px;
   outline: none;
+  font-size: 1.5vw;
 }
 
 #addTaskInputButton {

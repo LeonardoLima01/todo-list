@@ -26,6 +26,7 @@ export function loadTasks() {
     // Fix visibility
     addTaskForm.style.display = "none";
     addTaskButton.style.display = "flex";
+    projectTasks.style.display = "flex";
 
     // Get task name
     const taskName = addTaskInput.value;
