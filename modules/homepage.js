@@ -57,8 +57,22 @@ export function loadHomepage() {
   projectDisplay.appendChild(projectTitle);
 
   const addTaskButton = document.createElement("button");
+  addTaskButton.id = "addTaskButton";
   addTaskButton.textContent = "+ Add Task";
   projectDisplay.appendChild(addTaskButton);
+
+  const addTaskForm = document.createElement("form");
+  addTaskForm.id = "addTaskForm";
+  projectDisplay.appendChild(addTaskForm);
+
+  const addTaskInput = document.createElement("input");
+  addTaskInput.id = "addTaskInput";
+  addTaskForm.appendChild(addTaskInput);
+
+  const addTaskInputButton = document.createElement("button");
+  addTaskInputButton.id = "addTaskInputButton";
+  addTaskInputButton.textContent = "+ Add Task";
+  addTaskForm.appendChild(addTaskInputButton);
 
   const projectTasks = document.createElement("div");
   projectTasks.id = "projectTasks";
