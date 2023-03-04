@@ -111,6 +111,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #c5c5c5;
 }
 
 #projectDisplay {
@@ -118,6 +119,7 @@ body {
   height: 85%;
   display: flex;
   flex-direction: column;
+  gap: 2vw;
 }
 
 #projectTitle {
@@ -130,4 +132,39 @@ body {
 
 #projectTasks {
   flex: 1;
+}
+
+#projectTasks > div {
+  font-size: 3vh;
+  padding: 1vh;
+}
+
+#addTaskButton {
+  padding: 0.5vw;
+  width: 12%;
+  font-size: 1vw;
+  font-weight: bold;
+  border-radius: 5px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+#addTaskForm {
+  display: none;
+  flex-direction: column;
+  gap: 0.5vw;
+  width: 20%;
+}
+
+#addTaskInput {
+  padding: 0.5vw;
+  border-radius: 5px;
+  outline: none;
+}
+
+#addTaskInputButton {
+  padding: 0.6vw;
+  font-weight: bold;
+  font-size: 1vw;
 }
