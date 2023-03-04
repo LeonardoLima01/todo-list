@@ -1,0 +1,133 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#header {
+  display: flex;
+  min-height: 8vh;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(104, 104, 104);
+}
+
+#main {
+  display: flex;
+  flex: 1;
+}
+
+#footer {
+  display: flex;
+  min-height: 5vh;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(104, 104, 104);
+}
+
+#sidebar {
+  width: 20%;
+  background-color: rgb(189, 189, 189);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2vw;
+}
+
+#sidebarTitle {
+  font-size: 4vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#addProjectButton {
+  padding: 0.75vw;
+  width: 10vw;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1vw;
+  cursor: pointer;
+}
+
+#addProjectForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75vw;
+  justify-content: center;
+  align-items: center;
+}
+
+#addProjectInput {
+  display: none;
+  padding: 0.5vw;
+  width: 70%;
+  border-radius: 5px;
+  outline: none;
+}
+
+#addProjectInputButton {
+  padding: 0.5vw;
+  background-color: green;
+  border-radius: 5px;
+  width: 40%;
+  color: #eee;
+  font-weight: bold;
+  font-size: 1vw;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+#projectsPreview {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5vw;
+  font-size: 1.5vw;
+  cursor: pointer;
+}
+
+#projectsPreview > div:hover {
+  color: red;
+}
+
+#content {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#projectDisplay {
+  width: 85%;
+  height: 85%;
+  display: flex;
+  flex-direction: column;
+}
+
+#projectTitle {
+  height: 15%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 8vw;
+}
+
+#projectTasks {
+  flex: 1;
+}
