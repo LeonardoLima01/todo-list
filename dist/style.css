@@ -43,12 +43,12 @@ body {
   background-color: rgb(189, 189, 189);
   display: flex;
   flex-direction: column;
-  gap: 2vw;
   padding: 1vw 2vw 0 2vw;
+  gap: 1vh;
 }
 
 #sidebarTitle {
-  font-size: 4vw;
+  font-size: 6vh;
   display: flex;
   align-items: center;
 }
@@ -57,11 +57,17 @@ body {
   padding: 0.75vw;
   border-radius: 5px;
   display: flex;
-  justify-content: center;
   align-items: center;
   font-weight: bold;
   font-size: 1vw;
   cursor: pointer;
+  border: 0;
+  background-color: transparent;
+  transition: background-color 0.5s;
+}
+
+#addProjectButton:hover {
+  background-color: #b3b3b3;
 }
 
 #addProjectForm {
@@ -161,12 +167,20 @@ body {
 }
 
 .fa-xmark {
-  padding-top: 0.4vw;
   transition: color 0.5s;
 }
 
 .fa-xmark:hover {
   color: rgb(255, 153, 0);
+}
+
+#projectClosingIcon {
+  visibility: hidden;
+  padding-top: 0.25vw;
+}
+
+#newProjectContainer:hover > #projectClosingIcon {
+  visibility: visible;
 }
 
 #content {
@@ -183,7 +197,6 @@ body {
   height: 85%;
   display: flex;
   flex-direction: column;
-  gap: 2vw;
 }
 
 #projectTitle {
@@ -192,11 +205,13 @@ body {
   display: flex;
   align-items: center;
   font-size: 10vh;
+  margin-bottom: 4vh;
 }
 
 #projectTasks {
   display: none;
   flex-direction: column;
+  gap: 1vh;
 }
 
 #projectTasks > div {
@@ -207,13 +222,19 @@ body {
 
 #addTaskButton {
   padding: 0.5vw;
-  width: 12%;
   font-size: 1vw;
   font-weight: bold;
   border-radius: 5px;
   display: none;
-  justify-content: center;
   align-items: center;
+  margin-top: 4vh;
+  border: 0;
+  background-color: transparent;
+  transition: background-color 0.5s;
+}
+
+#addTaskButton:hover {
+  background-color: #d8d8d8;
 }
 
 #addTaskForm {
@@ -221,6 +242,7 @@ body {
   flex-direction: column;
   gap: 0.5vw;
   width: 20%;
+  margin-top: 2vh;
 }
 
 #addTaskInput {
@@ -228,6 +250,7 @@ body {
   border-radius: 5px;
   outline: none;
   font-size: 1.5vw;
+  background-color: white;
 }
 
 #addTaskInputButton {
@@ -238,7 +261,9 @@ body {
 
 #newTask {
   display: flex;
+  align-items: center;
   padding: 1vw;
+  border-left: 0.6vw solid transparent;
   border-radius: 0.5vw;
   background-color: transparent;
   border: 0;
@@ -250,10 +275,95 @@ body {
   background-color: #d8d8d8;
 }
 
+#newTask:hover > #taskClosingIcon {
+  visibility: visible;
+}
+
 #newTaskName {
-  font-size: 1.5vw;
+  font-size: 2vw;
+}
+
+#taskPriority {
+  margin-left: auto;
+  border-radius: 5px;
+}
+
+#taskPriority > select {
+  outline: none;
+  border-radius: 5px;
+  border: 2px solid black;
+  font-size: 1.25vw;
 }
 
 #taskDueDate {
-  margin-left: auto;
+  font-size: 1.25vw;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+#taskClosingIcon {
+  font-size: 2vw;
+  margin-left: 1vw;
+  visibility: hidden;
+}
+
+#addTaskButtons {
+  display: flex;
+  gap: 1.5vw;
+}
+
+#addTaskInputButton,
+#cancelTaskInputButton {
+  flex: 1;
+  font-weight: bold;
+  color: #eee;
+  border: 0;
+  border-radius: 5px;
+  font-size: 1.2vw;
+}
+
+#addTaskInputButton {
+  background-color: rgb(28, 197, 28);
+}
+
+#addTaskInputButton:hover {
+  background-color: rgb(66, 209, 66);
+}
+
+#cancelTaskInputButton {
+  background-color: rgb(218, 111, 111);
+}
+
+#cancelTaskInputButton:hover {
+  background-color: red;
+}
+
+#allTasksContainer,
+#todayTasksContainer,
+#weekTasksContainer {
+  display: flex;
+  gap: 0.75vw;
+  cursor: pointer;
+  padding: 1vh;
+  border-radius: 5px;
+  font-size: 2.5vh;
+  align-items: center;
+}
+
+#allTasksContainer:hover,
+#todayTasksContainer:hover,
+#weekTasksContainer:hover {
+  background-color: #b3b3b3;
+}
+
+#allTasksContainer > i,
+#todayTasksContainer > i,
+#weekTasksContainer > i {
+  transition: color 0.5s;
+}
+
+#allTasksContainer:hover > i,
+#todayTasksContainer:hover > i,
+#weekTasksContainer:hover > i {
+  color: orange;
 }

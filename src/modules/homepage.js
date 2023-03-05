@@ -17,6 +17,49 @@ export function loadHomepage() {
   sidebar.id = "sidebar";
   main.appendChild(sidebar);
 
+  const sidebarOptions = document.createElement("div");
+  sidebarOptions.id = "sidebarOptions";
+  sidebar.appendChild(sidebarOptions);
+
+  const allTasksContainer = document.createElement("div");
+  allTasksContainer.id = "allTasksContainer";
+  sidebarOptions.appendChild(allTasksContainer);
+
+  const allTasksIcon = document.createElement("i");
+  allTasksIcon.id = "allTasksIcon";
+  allTasksIcon.className = "fa-solid fa-house";
+  allTasksContainer.appendChild(allTasksIcon);
+
+  const allTasksName = document.createElement("div");
+  allTasksName.textContent = "All Tasks";
+  allTasksContainer.appendChild(allTasksName);
+
+  const todayTasksContainer = document.createElement("div");
+  todayTasksContainer.id = "todayTasksContainer";
+  sidebarOptions.appendChild(todayTasksContainer);
+
+  const todayTasksIcon = document.createElement("i");
+  todayTasksIcon.id = "todayTasksIcon";
+  todayTasksIcon.className = "fa-solid fa-calendar-day";
+  todayTasksContainer.appendChild(todayTasksIcon);
+
+  const todayTasksName = document.createElement("div");
+  todayTasksName.textContent = "Today";
+  todayTasksContainer.appendChild(todayTasksName);
+
+  const weekTasksContainer = document.createElement("div");
+  weekTasksContainer.id = "weekTasksContainer";
+  sidebarOptions.appendChild(weekTasksContainer);
+
+  const weekTasksIcon = document.createElement("i");
+  weekTasksIcon.id = "weekTasksIcon";
+  weekTasksIcon.className = "fa-solid fa-calendar-week";
+  weekTasksContainer.appendChild(weekTasksIcon);
+
+  const weekTasksName = document.createElement("div");
+  weekTasksName.textContent = "Week";
+  weekTasksContainer.appendChild(weekTasksName);
+
   const sidebarTitle = document.createElement("div");
   sidebarTitle.id = "sidebarTitle";
   sidebarTitle.textContent = "Projects";
@@ -83,8 +126,18 @@ export function loadHomepage() {
   addTaskInput.id = "addTaskInput";
   addTaskForm.appendChild(addTaskInput);
 
+  const addTaskButtons = document.createElement("div");
+  addTaskButtons.id = "addTaskButtons";
+  addTaskForm.appendChild(addTaskButtons);
+
   const addTaskInputButton = document.createElement("button");
   addTaskInputButton.id = "addTaskInputButton";
-  addTaskInputButton.textContent = "+ Add Task";
-  addTaskForm.appendChild(addTaskInputButton);
+  addTaskInputButton.textContent = "Add";
+  addTaskButtons.appendChild(addTaskInputButton);
+
+  const cancelTaskInputButton = document.createElement("button");
+  cancelTaskInputButton.type = "button";
+  cancelTaskInputButton.id = "cancelTaskInputButton";
+  cancelTaskInputButton.textContent = "Cancel";
+  addTaskButtons.appendChild(cancelTaskInputButton);
 }

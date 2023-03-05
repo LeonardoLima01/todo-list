@@ -43,6 +43,7 @@ export function loadProjects() {
   const projectTitle = document.querySelector("#projectTitle");
   const projectTasks = document.querySelector("#projectTasks");
   const addTaskButton = document.querySelector("#addTaskButton");
+  const addTaskForm = document.querySelector("#addTaskForm");
   let idCount = 0;
 
   // Cancel project
@@ -104,17 +105,23 @@ export function loadProjects() {
     newProjectContainer.appendChild(newProjectPreview);
 
     // Add closing icon
-    const closingIcon = document.createElement("i");
-    closingIcon.className = "fa-solid fa-xmark";
-    newProjectContainer.appendChild(closingIcon);
+    const projectClosingIcon = document.createElement("i");
+    projectClosingIcon.className = "fa-solid fa-xmark";
+    projectClosingIcon.id = "projectClosingIcon";
+    newProjectContainer.appendChild(projectClosingIcon);
 
     // Closing icon event listener
-    closingIcon.addEventListener("click", () => {
+    projectClosingIcon.addEventListener("click", () => {
       projects.splice(
-        projects[getProjectIndex(newProjectPreview.className)].id,
+        projects[getProjectIndex(newProjectPreview.className)],
         1
       );
       newProjectContainer.remove();
+
+      // Hide  projectPreview if empty (prevent gap appearing to nothing)
+      if (!projectsPreview.firstChild) {
+        projectsPreview.style.display = "none";
+      }
       console.log(projects);
     });
 
@@ -122,6 +129,10 @@ export function loadProjects() {
     newProjectPreview.addEventListener("click", () => {
       console.log("ProjID: " + newProjectPreview.className);
       console.log("FunctID: " + getProjectIndex(newProjectPreview.className));
+
+      // Hide form to add tasks if open
+      addTaskForm.style.display = "none";
+
       // Iterate over project array if there's any task there
       if (
         projects[getProjectIndex(newProjectPreview.className)].tasks.length > 0
