@@ -157,7 +157,7 @@ body {
 }
 
 #projectName {
-  margin-right: auto;
+  flex: 1;
 }
 
 .fa-xmark {
@@ -175,7 +175,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #c5c5c5;
+  background-color: white;
 }
 
 #projectDisplay {
@@ -234,4 +234,26 @@ body {
   padding: 0.6vw;
   font-weight: bold;
   font-size: 1vw;
+}
+
+#newTask {
+  display: flex;
+  padding: 1vw;
+  border-radius: 0.5vw;
+  background-color: transparent;
+  border: 0;
+  transition: background-color 0.5s;
+  gap: 1vw;
+}
+
+#newTask:hover {
+  background-color: #d8d8d8;
+}
+
+#newTaskName {
+  font-size: 1.5vw;
+}
+
+#taskDueDate {
+  margin-left: auto;
 }
