@@ -1,4 +1,5 @@
 import { projects } from "./projects.js";
+import { getProjectIndex } from "./projects.js";
 
 export function loadTasks() {
   const addProjectButton = document.querySelector("#addProjectButton");
@@ -34,13 +35,25 @@ export function loadTasks() {
     // Reset input text
     addTaskInput.value = "";
 
-    // Show task on screen
-    const newTask = document.createElement("div");
-    newTask.textContent = taskName;
+    // Add task to screen
+    const newTask = document.createElement("button");
+    newTask.id = "newTask";
     projectTasks.appendChild(newTask);
 
+    // Add task name div to task
+    const newTaskName = document.createElement("div");
+    newTaskName.id = "newTaskName";
+    newTaskName.textContent = taskName;
+    newTask.appendChild(newTaskName);
+
+    // Add due date to task
+    const taskDueDate = document.createElement("input");
+    taskDueDate.id = "taskDueDate";
+    taskDueDate.type = "date";
+    newTask.appendChild(taskDueDate);
+
     // Add task to project's array
-    const projectIndex = projectTitle.className;
+    const projectIndex = getProjectIndex(projectTitle.className);
     projects[projectIndex].tasks.push(taskName);
   });
 }
