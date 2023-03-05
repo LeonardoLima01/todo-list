@@ -20,9 +20,19 @@ body {
 #header {
   display: flex;
   min-height: 8vh;
-  justify-content: center;
   align-items: center;
   background-color: rgb(104, 104, 104);
+}
+
+#headerText {
+  color: #eee;
+  font-size: 4vw;
+  padding-left: 2vw;
+  transition: color 0.5s;
+}
+
+#headerText:hover {
+  color: orange;
 }
 
 #main {
