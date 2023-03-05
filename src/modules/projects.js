@@ -44,6 +44,7 @@ export function loadProjects() {
   const projectTasks = document.querySelector("#projectTasks");
   const addTaskButton = document.querySelector("#addTaskButton");
   const addTaskForm = document.querySelector("#addTaskForm");
+  const content = document.querySelector("#content");
   let idCount = 0;
 
   // Cancel project
@@ -112,17 +113,24 @@ export function loadProjects() {
 
     // Closing icon event listener
     projectClosingIcon.addEventListener("click", () => {
-      projects.splice(
-        projects[getProjectIndex(newProjectPreview.className)],
-        1
+      console.log(
+        "Removing project at index: " +
+          getProjectIndex(newProjectPreview.className)
       );
+
+      projects.splice(getProjectIndex(newProjectPreview.className), 1);
       newProjectContainer.remove();
+
+      // Hide project/tasks name when removed
+      content.style.display = "none";
 
       // Hide  projectPreview if empty (prevent gap appearing to nothing)
       if (!projectsPreview.firstChild) {
         projectsPreview.style.display = "none";
       }
-      console.log(projects);
+      console.log(
+        "Projects array after deleting project: " + JSON.stringify(projects)
+      );
     });
 
     // Add event listener to display project on screen
@@ -132,6 +140,9 @@ export function loadProjects() {
 
       // Hide form to add tasks if open
       addTaskForm.style.display = "none";
+
+      // Show project/tasks name on screen
+      content.style.display = "flex";
 
       // Iterate over project array if there's any task there
       if (

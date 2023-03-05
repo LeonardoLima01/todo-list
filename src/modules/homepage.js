@@ -5,6 +5,11 @@ export function loadHomepage() {
   header.id = "header";
   container.appendChild(header);
 
+  const headerText = document.createElement("div");
+  headerText.id = "headerText";
+  headerText.textContent = "Todo List";
+  header.appendChild(headerText);
+
   const main = document.createElement("div");
   main.id = "main";
   container.appendChild(main);
