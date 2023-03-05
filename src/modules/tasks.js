@@ -17,7 +17,6 @@ export function loadTasks() {
   const cancelTaskInputButton = document.querySelector(
     "#cancelTaskInputButton"
   );
-  let idCount = 0;
 
   addTaskButton.addEventListener("click", () => {
     addTaskButton.style.display = "none";
@@ -52,13 +51,9 @@ export function loadTasks() {
     // Reset input text
     addTaskInput.value = "";
 
-    // Keep track of task index on projects array
-    let count = 0;
-
     // Add task to screen
     const newTask = document.createElement("button");
     newTask.id = "newTask";
-    newTask.className = count;
     projectTasks.appendChild(newTask);
 
     // Add task name div to task
@@ -116,6 +111,22 @@ export function loadTasks() {
     taskDueDate.type = "date";
     newTask.appendChild(taskDueDate);
 
+    // Get current task index
+    let child = newTask;
+    let parent = child.parentNode;
+    let taskIndex = Array.prototype.indexOf.call(parent.children, child);
+
+    taskDueDate.addEventListener("input", () => {
+      projects[projectTitle.className].dueDate[taskIndex] = taskDueDate.value;
+
+      console.log(
+        "DueDate assigned: " +
+          JSON.stringify(projects[projectTitle.className].dueDate)
+      );
+      console.log("At proj index: " + projectTitle.className);
+      console.log("At TASK index: " + taskIndex);
+    });
+
     // Add task closing icon
     const taskClosingIcon = document.createElement("i");
     taskClosingIcon.className = "fa-solid fa-xmark";
@@ -124,12 +135,18 @@ export function loadTasks() {
 
     // Task closing event listener
     taskClosingIcon.addEventListener("click", () => {
-      // Remove task from screen and div
-      newTask.remove();
+      let child = newTask;
+      let parent = child.parentNode;
+
+      // Get task index
+      var taskIndex = Array.prototype.indexOf.call(parent.children, child);
 
       // Remove task from array
-      projects[projectIndex].tasks.splice(newTask.className, 1);
+      projects[projectIndex].tasks.splice(taskIndex, 1);
       console.log(projects);
+
+      // Remove task from screen and div
+      newTask.remove();
     });
   });
 }
