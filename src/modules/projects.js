@@ -47,6 +47,8 @@ export function loadProjects() {
   const addTaskForm = document.querySelector("#addTaskForm");
   const content = document.querySelector("#content");
   const allTasksOption = document.querySelector("#allTasksContainer");
+  const todayOption = document.querySelector("#todayTasksContainer");
+  const weekOption = document.querySelector("#weekTasksContainer");
   let idCount = 0;
 
   // Cancel project
@@ -145,6 +147,9 @@ export function loadProjects() {
 
       // Show project/tasks name on screen
       content.style.display = "flex";
+
+      // Show project title
+      projectTitle.style.display = "flex";
 
       // Iterate over project array if there's any task there
       if (
@@ -285,12 +290,11 @@ export function loadProjects() {
       // Hide project title
       projectTitle.style.display = "none";
 
+      // Hide button to add tasks
       addTaskButton.style.display = "none";
 
       for (let project of projects) {
         for (let task of project.tasks) {
-          console.log(task);
-
           // Get task name
           const taskName = task;
 
@@ -304,6 +308,94 @@ export function loadProjects() {
           newTaskName.id = "newTaskName";
           newTaskName.textContent = taskName;
           newTask.appendChild(newTaskName);
+        }
+      }
+    });
+
+    // Today date
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, "0");
+    let mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    let yyyy = today.getFullYear();
+    today = yyyy + "-" + mm + "-" + dd;
+
+    todayOption.addEventListener("click", () => {
+      // Clear all previous added tasks
+      removeAllChildNodes(projectTasks);
+
+      // Hide project title
+      projectTitle.style.display = "none";
+
+      // Hide button to add tasks
+      addTaskButton.style.display = "none";
+
+      for (let project of projects) {
+        // Get dueDate object length
+        let length = Object.keys(project.dueDate).length;
+        for (let i = 0; i < length; i++) {
+          console.log("Is " + project.dueDate[i] + " == " + today + "?");
+          if (project.dueDate[i] == today) {
+            // Get task name
+            const taskName = project.tasks[i];
+
+            // Create task
+            const newTask = document.createElement("div");
+            newTask.id = "newTask";
+            projectTasks.appendChild(newTask);
+
+            // Add task name div to task
+            const newTaskName = document.createElement("div");
+            newTaskName.id = "newTaskName";
+            newTaskName.textContent = taskName;
+            newTask.appendChild(newTaskName);
+          }
+        }
+      }
+    });
+
+    weekOption.addEventListener("click", () => {
+      // Clear all previous added tasks
+      removeAllChildNodes(projectTasks);
+
+      // Hide project title
+      projectTitle.style.display = "none";
+
+      // Hide button to add tasks
+      addTaskButton.style.display = "none";
+
+      for (let project of projects) {
+        // Get dueDate object length
+        let length = Object.keys(project.dueDate).length;
+        for (let i = 0; i < length; i++) {
+          console.log("Is " + project.dueDate[i] + " == " + today + "?");
+
+          let dueDateYear = project.dueDate[i].split("-")[0];
+          let dueDateMonth = project.dueDate[i].split("-")[1];
+          let dueDateDay = project.dueDate[i].split("-")[2];
+
+          console.log("due Year " + dueDateYear);
+          console.log("due Month " + dueDateMonth);
+          console.log("due Day " + dueDateDay);
+
+          // If year and month are the same
+          if (dueDateYear == yyyy && dueDateMonth == mm) {
+            // Check if day is equal or >= today + 7 days
+            if (dueDateDay >= dd && dueDateDay <= dd + 7) {
+              // Get task name
+              const taskName = project.tasks[i];
+
+              // Create task
+              const newTask = document.createElement("div");
+              newTask.id = "newTask";
+              projectTasks.appendChild(newTask);
+
+              // Add task name div to task
+              const newTaskName = document.createElement("div");
+              newTaskName.id = "newTaskName";
+              newTaskName.textContent = taskName;
+              newTask.appendChild(newTaskName);
+            }
+          }
         }
       }
     });
