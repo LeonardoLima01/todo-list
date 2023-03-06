@@ -31,6 +31,9 @@ export function loadTasks() {
     addTaskInput.value = "";
   });
 
+  // Number to be added to checkboxes id to make them unique to be referenced by the label
+  let cbCount = 0;
+
   addTaskForm.addEventListener("submit", (e) => {
     e.preventDefault(); // Prevent form from auto submitting
 
@@ -51,16 +54,42 @@ export function loadTasks() {
     // Reset input text
     addTaskInput.value = "";
 
-    // Add task to screen
-    const newTask = document.createElement("button");
+    // Create task
+    const newTask = document.createElement("div");
     newTask.id = "newTask";
     projectTasks.appendChild(newTask);
 
+    // Checkbox container
+    const newTaskCheckboxContainer = document.createElement("div");
+    newTaskCheckboxContainer.id = "newTaskCheckboxContainer";
+    newTask.appendChild(newTaskCheckboxContainer);
+
+    const newTaskCheckbox = document.createElement("input");
+    newTaskCheckbox.type = "checkbox";
+    newTaskCheckbox.id = "cb" + cbCount;
+    newTaskCheckboxContainer.appendChild(newTaskCheckbox);
+
+    // Get current task index
+    let child = newTask;
+    let parent = child.parentNode;
+    let taskIndex = Array.prototype.indexOf.call(parent.children, child);
+
+    newTaskCheckbox.addEventListener("click", () => {
+      if (projects[projectTitle.className].checked[taskIndex] == "yes") {
+        projects[projectTitle.className].checked[taskIndex] = "no";
+      } else {
+        projects[projectTitle.className].checked[taskIndex] = "yes";
+      }
+    });
+
     // Add task name div to task
-    const newTaskName = document.createElement("div");
+    const newTaskName = document.createElement("label");
     newTaskName.id = "newTaskName";
+    newTaskName.htmlFor = "cb" + cbCount;
     newTaskName.textContent = taskName;
-    newTask.appendChild(newTaskName);
+    newTaskCheckboxContainer.appendChild(newTaskName);
+
+    cbCount++;
 
     // Add task to project's array
     const projectIndex = getProjectIndex(projectTitle.className);
@@ -111,17 +140,11 @@ export function loadTasks() {
     taskDueDate.type = "date";
     newTask.appendChild(taskDueDate);
 
-    // Get current task index
-    let child = newTask;
-    let parent = child.parentNode;
-    let taskIndex = Array.prototype.indexOf.call(parent.children, child);
-
     taskDueDate.addEventListener("input", () => {
       projects[projectTitle.className].dueDate[taskIndex] = taskDueDate.value;
 
       console.log(
-        "DueDate assigned: " +
-          JSON.stringify(projects[projectTitle.className].dueDate)
+        "DueDate assigned: " + projects[projectTitle.className].dueDate
       );
       console.log("At proj index: " + projectTitle.className);
       console.log("At TASK index: " + taskIndex);

@@ -5,6 +5,7 @@ function Project(name, id) {
     name,
     id,
     dueDate: {},
+    checked: {},
   };
 }
 
@@ -151,6 +152,15 @@ export function loadProjects() {
       // Show project title
       projectTitle.style.display = "flex";
 
+      // Set project title
+      projectTitle.textContent = newProjectName;
+
+      // Set proj.title class as the index of the project on the array
+      projectTitle.className = newProjectPreview.className;
+
+      // Show button to add tasks
+      addTaskButton.style.display = "flex";
+
       // Iterate over project array if there's any task there
       if (
         projects[getProjectIndex(newProjectPreview.className)].tasks.length > 0
@@ -162,6 +172,9 @@ export function loadProjects() {
         console.log(
           projects[getProjectIndex(newProjectPreview.className)].tasks
         );
+
+        // Number used to create unique ids for each checkbox to be referenced by the label
+        let cbCount = 0;
 
         for (let task of projects[getProjectIndex(newProjectPreview.className)]
           .tasks) {
@@ -175,11 +188,63 @@ export function loadProjects() {
           newTask.id = "newTask";
           projectTasks.appendChild(newTask);
 
+          // Checkbox container
+          const newTaskCheckboxContainer = document.createElement("div");
+          newTaskCheckboxContainer.id = "newTaskCheckboxContainer";
+          newTask.appendChild(newTaskCheckboxContainer);
+
+          const newTaskCheckbox = document.createElement("input");
+          newTaskCheckbox.type = "checkbox";
+          newTaskCheckbox.id = "cb" + cbCount;
+          newTaskCheckboxContainer.appendChild(newTaskCheckbox);
+
+          // Get current task index
+          let child = newTask;
+          let parent = child.parentNode;
+          let taskIndex = Array.prototype.indexOf.call(parent.children, child);
+
+          // Task event listener
+          newTaskCheckbox.addEventListener("click", () => {
+            console.log("box clicked");
+            console.log("project index being marked: ", projectTitle.className);
+            console.log("task index being marked:", taskIndex);
+            console.log(projects);
+
+            // If it's the first time being clicked, add yes (checked)
+            if (projects[projectTitle.className].checked[taskIndex] == null) {
+              projects[projectTitle.className].checked[taskIndex] = "yes";
+            } else {
+              if (
+                projects[projectTitle.className].checked[taskIndex] == "yes"
+              ) {
+                projects[projectTitle.className].checked[taskIndex] = "no";
+              } else {
+                projects[projectTitle.className].checked[taskIndex] = "yes";
+              }
+            }
+          });
+          console.log(
+            "PROJECT TITLE: " +
+              newTask.parentNode.parentNode.firstChild.textContent
+          );
+          console.log("IF AT PROJECT: ", projectTitle.className);
+          console.log("AT TASK IS MARKED:", taskIndex);
+
+          console.log(projects[projectTitle.className].checked);
+
+          // Check if current checkbox being displayed was checked before, if so display it checked
+          if (projects[projectTitle.className].checked[taskIndex] == "yes") {
+            newTaskCheckbox.checked = true;
+          }
+
           // Add task name div to task
-          const newTaskName = document.createElement("div");
+          const newTaskName = document.createElement("label");
           newTaskName.id = "newTaskName";
+          newTaskName.htmlFor = "cb" + cbCount;
           newTaskName.textContent = taskName;
-          newTask.appendChild(newTaskName);
+          newTaskCheckboxContainer.appendChild(newTaskName);
+
+          cbCount++;
 
           // Add task to project's array
           const projectIndex = getProjectIndex(projectTitle.className);
@@ -229,18 +294,7 @@ export function loadProjects() {
           taskDueDate.type = "date";
           newTask.appendChild(taskDueDate);
 
-          // Get current task index
-          let child = newTask;
-          let parent = child.parentNode;
-          let taskIndex = Array.prototype.indexOf.call(parent.children, child);
-
           taskDueDate.addEventListener("input", () => {
-            // Check if this task already has a date declared and if so replace it
-            if (projects[projectTitle.className].dueDate[taskIndex]) {
-              console.log("already declared!!!!!!!!!!!!!!");
-              return;
-            }
-
             projects[projectTitle.className].dueDate[taskIndex] =
               taskDueDate.value;
 
@@ -271,15 +325,6 @@ export function loadProjects() {
         // Clear all previous added tasks
         removeAllChildNodes(projectTasks);
       }
-
-      // Show project title
-      projectTitle.textContent = newProjectName;
-
-      // Set proj.title class as the index of the project on the array
-      projectTitle.className = newProjectPreview.className;
-
-      // Show button to add tasks
-      addTaskButton.style.display = "flex";
     });
 
     // All tasks event listener
@@ -293,21 +338,45 @@ export function loadProjects() {
       // Hide button to add tasks
       addTaskButton.style.display = "none";
 
+      // Number to be added to checkboxes id to make them unique to be referenced by the label
+      let cbCount = 0;
+
       for (let project of projects) {
         for (let task of project.tasks) {
           // Get task name
           const taskName = task;
 
-          // Create task
-          const newTask = document.createElement("div");
-          newTask.id = "newTask";
-          projectTasks.appendChild(newTask);
+          // Get current task index
+          let child = newTask;
+          let parent = child.parentNode;
+          let taskIndex = Array.prototype.indexOf.call(parent.children, child);
+
+          newTaskCheckbox.addEventListener("click", () => {
+            if (projects[projectTitle.className].checked[taskIndex] == "yes") {
+              projects[projectTitle.className].checked[taskIndex] = "no";
+            } else {
+              projects[projectTitle.className].checked[taskIndex] = "yes";
+            }
+          });
+
+          // Check if current checkbox being displayed was checked before, if so display it checked
+          if (projects[projectTitle.className].checked[taskIndex] == "yes") {
+            newTaskCheckbox.checked = true;
+          }
+
+          const newTaskCheckbox = document.createElement("input");
+          newTaskCheckbox.type = "checkbox";
+          newTaskCheckbox.id = "cb" + cbCount;
+          newTaskCheckboxContainer.appendChild(newTaskCheckbox);
 
           // Add task name div to task
-          const newTaskName = document.createElement("div");
+          const newTaskName = document.createElement("label");
           newTaskName.id = "newTaskName";
+          newTaskName.htmlFor = "cb" + cbCount;
           newTaskName.textContent = taskName;
-          newTask.appendChild(newTaskName);
+          newTaskCheckboxContainer.appendChild(newTaskName);
+
+          cbCount++;
         }
       }
     });
@@ -318,6 +387,9 @@ export function loadProjects() {
     let mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     let yyyy = today.getFullYear();
     today = yyyy + "-" + mm + "-" + dd;
+
+    // Number to be added to checkboxes id to make them unique to be referenced by the label
+    let cbCount = 0;
 
     todayOption.addEventListener("click", () => {
       // Clear all previous added tasks
@@ -330,6 +402,8 @@ export function loadProjects() {
       addTaskButton.style.display = "none";
 
       for (let project of projects) {
+        console.log(project.dueDate);
+
         // Get dueDate object length
         let length = Object.keys(project.dueDate).length;
         for (let i = 0; i < length; i++) {
@@ -343,15 +417,54 @@ export function loadProjects() {
             newTask.id = "newTask";
             projectTasks.appendChild(newTask);
 
+            // Checkbox container
+            const newTaskCheckboxContainer = document.createElement("div");
+            newTaskCheckboxContainer.id = "newTaskCheckboxContainer";
+            newTask.appendChild(newTaskCheckboxContainer);
+
+            const newTaskCheckbox = document.createElement("input");
+            newTaskCheckbox.type = "checkbox";
+            newTaskCheckbox.id = "cb" + cbCount;
+            newTaskCheckboxContainer.appendChild(newTaskCheckbox);
+
+            // Get current task index
+            let child = newTask;
+            let parent = child.parentNode;
+            let taskIndex = Array.prototype.indexOf.call(
+              parent.children,
+              child
+            );
+
+            newTaskCheckbox.addEventListener("click", () => {
+              if (
+                projects[projectTitle.className].checked[taskIndex] == "yes"
+              ) {
+                projects[projectTitle.className].checked[taskIndex] = "no";
+              } else {
+                projects[projectTitle.className].checked[taskIndex] = "yes";
+              }
+            });
+
+            // Check if current checkbox being displayed was checked before, if so display it checked
+            if (projects[projectTitle.className].checked[taskIndex] == "yes") {
+              newTaskCheckbox.checked = true;
+            }
+
             // Add task name div to task
-            const newTaskName = document.createElement("div");
+            const newTaskName = document.createElement("label");
             newTaskName.id = "newTaskName";
+            newTaskName.htmlFor = "cb" + cbCount;
             newTaskName.textContent = taskName;
-            newTask.appendChild(newTaskName);
+            newTaskCheckboxContainer.appendChild(newTaskName);
+
+            cbCount++;
           }
         }
       }
     });
+
+    // Number to be added to checkboxes id to make them unique to be referenced by the label
+    cbCount = 0;
 
     weekOption.addEventListener("click", () => {
       // Clear all previous added tasks
@@ -389,11 +502,49 @@ export function loadProjects() {
               newTask.id = "newTask";
               projectTasks.appendChild(newTask);
 
+              // Checkbox container
+              const newTaskCheckboxContainer = document.createElement("div");
+              newTaskCheckboxContainer.id = "newTaskCheckboxContainer";
+              newTask.appendChild(newTaskCheckboxContainer);
+
+              const newTaskCheckbox = document.createElement("input");
+              newTaskCheckbox.type = "checkbox";
+              newTaskCheckbox.id = "cb" + cbCount;
+              newTaskCheckboxContainer.appendChild(newTaskCheckbox);
+
+              // Get current task index
+              let child = newTask;
+              let parent = child.parentNode;
+              let taskIndex = Array.prototype.indexOf.call(
+                parent.children,
+                child
+              );
+
+              newTaskCheckbox.addEventListener("click", () => {
+                if (
+                  projects[projectTitle.className].checked[taskIndex] == "yes"
+                ) {
+                  projects[projectTitle.className].checked[taskIndex] = "no";
+                } else {
+                  projects[projectTitle.className].checked[taskIndex] = "yes";
+                }
+              });
+
+              // Check if current checkbox being displayed was checked before, if so display it checked
+              if (
+                projects[projectTitle.className].checked[taskIndex] == "yes"
+              ) {
+                newTaskCheckbox.checked = true;
+              }
+
               // Add task name div to task
-              const newTaskName = document.createElement("div");
+              const newTaskName = document.createElement("label");
               newTaskName.id = "newTaskName";
+              newTaskName.htmlFor = "cb" + cbCount;
               newTaskName.textContent = taskName;
-              newTask.appendChild(newTaskName);
+              newTaskCheckboxContainer.appendChild(newTaskName);
+
+              cbCount++;
             }
           }
         }
