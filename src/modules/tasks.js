@@ -75,10 +75,15 @@ export function loadTasks() {
     let taskIndex = Array.prototype.indexOf.call(parent.children, child);
 
     newTaskCheckbox.addEventListener("click", () => {
-      if (projects[projectTitle.className].checked[taskIndex] == "yes") {
-        projects[projectTitle.className].checked[taskIndex] = "no";
+      if (
+        projects[getProjectIndex(projectTitle.className)].checked[taskIndex] ==
+        "yes"
+      ) {
+        projects[getProjectIndex(projectTitle.className)].checked[taskIndex] =
+          "no";
       } else {
-        projects[projectTitle.className].checked[taskIndex] = "yes";
+        projects[getProjectIndex(projectTitle.className)].checked[taskIndex] =
+          "yes";
       }
     });
 

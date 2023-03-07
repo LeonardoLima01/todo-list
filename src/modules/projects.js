@@ -101,7 +101,6 @@ export function loadProjects() {
 
     // ++
     idCount++;
-    console.log("++Count");
 
     newProjectPreview.id = "projectName";
     newProjectPreview.textContent = newProjectName;
@@ -143,22 +142,11 @@ export function loadProjects() {
       console.log("ProjID: " + newProjectPreview.className);
       console.log("FunctID: " + getProjectIndex(newProjectPreview.className));
 
-      // Hide form to add tasks if open
       addTaskForm.style.display = "none";
-
-      // Show project/tasks name on screen
       content.style.display = "flex";
-
-      // Show project title
       projectTitle.style.display = "flex";
-
-      // Set project title
       projectTitle.textContent = newProjectName;
-
-      // Set proj.title class as the index of the project on the array
       projectTitle.className = newProjectPreview.className;
-
-      // Show button to add tasks
       addTaskButton.style.display = "flex";
 
       // Iterate over project array if there's any task there
@@ -211,16 +199,22 @@ export function loadProjects() {
             console.log(projects);
 
             // If it's the first time being clicked, add yes (checked)
-            if (projects[projectTitle.className].checked[taskIndex] == null) {
+            if (
+              projects[getProjectIndex(projectTitle.className)].checked[
+                taskIndex
+              ] == null
+            ) {
               projects[projectTitle.className].checked[taskIndex] = "yes";
             } else {
-              if (
-                projects[projectTitle.className].checked[taskIndex] == "yes"
-              ) {
-                projects[projectTitle.className].checked[taskIndex] = "no";
-              } else {
-                projects[projectTitle.className].checked[taskIndex] = "yes";
-              }
+              projects[getProjectIndex(projectTitle.className)].checked[
+                taskIndex
+              ] == "yes"
+                ? (projects[getProjectIndex(projectTitle.className)].checked[
+                    taskIndex
+                  ] = "no")
+                : (projects[getProjectIndex(projectTitle.className)].checked[
+                    taskIndex
+                  ] = "yes");
             }
           });
           console.log(
@@ -230,10 +224,16 @@ export function loadProjects() {
           console.log("IF AT PROJECT: ", projectTitle.className);
           console.log("AT TASK IS MARKED:", taskIndex);
 
-          console.log(projects[projectTitle.className].checked);
+          console.log(
+            projects[getProjectIndex(projectTitle.className)].checked
+          );
 
           // Check if current checkbox being displayed was checked before, if so display it checked
-          if (projects[projectTitle.className].checked[taskIndex] == "yes") {
+          if (
+            projects[getProjectIndex(projectTitle.className)].checked[
+              taskIndex
+            ] == "yes"
+          ) {
             newTaskCheckbox.checked = true;
           }
 
@@ -295,8 +295,9 @@ export function loadProjects() {
           newTask.appendChild(taskDueDate);
 
           taskDueDate.addEventListener("input", () => {
-            projects[projectTitle.className].dueDate[taskIndex] =
-              taskDueDate.value;
+            projects[getProjectIndex(projectTitle.className)].dueDate[
+              taskIndex
+            ] = taskDueDate.value;
 
             console.log(
               "DueDate assigned: " + projects[projectTitle.className].dueDate
@@ -304,6 +305,16 @@ export function loadProjects() {
             console.log("At proj index: " + projectTitle.className);
             console.log("At TASK index: " + taskIndex);
           });
+
+          // Check if task already has a due date set
+          if (
+            projects[getProjectIndex(projectTitle.className)].dueDate[taskIndex]
+          ) {
+            taskDueDate.value =
+              projects[getProjectIndex(projectTitle.className)].dueDate[
+                taskIndex
+              ];
+          }
 
           // Add task closing icon
           const taskClosingIcon = document.createElement("i");
@@ -325,13 +336,13 @@ export function loadProjects() {
         // Clear all previous added tasks
         removeAllChildNodes(projectTasks);
       }
+      console.log(projects);
     });
 
     // All tasks event listener
     allTasksOption.addEventListener("click", () => {
       // Clear all previous added tasks
       removeAllChildNodes(projectTasks);
-
       // Hide project title
       projectTitle.style.display = "none";
 
@@ -346,28 +357,27 @@ export function loadProjects() {
           // Get task name
           const taskName = task;
 
+          // Create task
+          const newTask = document.createElement("div");
+          newTask.id = "newTask";
+          projectTasks.appendChild(newTask);
+
           // Get current task index
           let child = newTask;
           let parent = child.parentNode;
           let taskIndex = Array.prototype.indexOf.call(parent.children, child);
 
-          newTaskCheckbox.addEventListener("click", () => {
-            if (projects[projectTitle.className].checked[taskIndex] == "yes") {
-              projects[projectTitle.className].checked[taskIndex] = "no";
-            } else {
-              projects[projectTitle.className].checked[taskIndex] = "yes";
-            }
-          });
-
-          // Check if current checkbox being displayed was checked before, if so display it checked
-          if (projects[projectTitle.className].checked[taskIndex] == "yes") {
-            newTaskCheckbox.checked = true;
-          }
+          // Checkbox container
+          const newTaskCheckboxContainer = document.createElement("div");
+          newTaskCheckboxContainer.id = "newTaskCheckboxContainer";
+          newTask.appendChild(newTaskCheckboxContainer);
 
           const newTaskCheckbox = document.createElement("input");
           newTaskCheckbox.type = "checkbox";
           newTaskCheckbox.id = "cb" + cbCount;
           newTaskCheckboxContainer.appendChild(newTaskCheckbox);
+
+          console.log(projects);
 
           // Add task name div to task
           const newTaskName = document.createElement("label");
@@ -376,7 +386,42 @@ export function loadProjects() {
           newTaskName.textContent = taskName;
           newTaskCheckboxContainer.appendChild(newTaskName);
 
-          cbCount++;
+          // Check if current checkbox being displayed was checked before, if so display it checked
+          console.log(
+            "IF AT PROJ INDEX: " + getProjectIndex(projectTitle.className)
+          );
+          console.log("AND AT TASK INDEX: " + taskIndex);
+
+          // Update 'projects' checked object
+          newTaskCheckbox.addEventListener("click", () => {
+            console.log("clickkkkk");
+            console.log(
+              "content being checked = " +
+                projects[getProjectIndex(projectTitle.className)].checked[
+                  taskIndex
+                ]
+            );
+            projects[getProjectIndex(projectTitle.className)].checked[
+              taskIndex
+            ] == "yes"
+              ? (projects[getProjectIndex(projectTitle.className)].checked[
+                  taskIndex
+                ] = "no")
+              : (projects[getProjectIndex(projectTitle.className)].checked[
+                  taskIndex
+                ] = "yes");
+
+            console.log(projects[getProjectIndex(projectTitle.className)]);
+          });
+
+          // Update checkbox 'checked' state if it's checked
+          if (
+            projects[getProjectIndex(projectTitle.className)].checked[
+              taskIndex
+            ] == "yes"
+          ) {
+            newTaskCheckbox.checked = true;
+          }
         }
       }
     });
@@ -486,14 +531,17 @@ export function loadProjects() {
           let dueDateMonth = project.dueDate[i].split("-")[1];
           let dueDateDay = project.dueDate[i].split("-")[2];
 
-          console.log("due Year " + dueDateYear);
-          console.log("due Month " + dueDateMonth);
-          console.log("due Day " + dueDateDay);
-
           // If year and month are the same
           if (dueDateYear == yyyy && dueDateMonth == mm) {
             // Check if day is equal or >= today + 7 days
-            if (dueDateDay >= dd && dueDateDay <= dd + 7) {
+
+            console.log("due Year " + dueDateYear);
+            console.log("due Month " + dueDateMonth);
+            console.log("due Day " + dueDateDay);
+            console.log("dd: " + dd);
+
+            if (dueDateDay >= dd && dueDateDay <= +dd + 7) {
+              console.log("APPROVE");
               // Get task name
               const taskName = project.tasks[i];
 
