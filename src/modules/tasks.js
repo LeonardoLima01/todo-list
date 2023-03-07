@@ -1,6 +1,17 @@
 import { projects } from "./projects.js";
 import { getProjectIndex } from "./projects.js";
 
+// Check for repeated names
+function checkRepeatedName(name) {
+  for (let project of projects) {
+    for (let task of Object.values(project.tasks)) {
+      if (task == name) {
+        return 1;
+      }
+    }
+  }
+}
+
 export function loadTasks() {
   const addProjectButton = document.querySelector("#addProjectButton");
   const addProjectInput = document.querySelector("#addProjectInput");
@@ -51,6 +62,16 @@ export function loadTasks() {
     // Get task name
     const taskName = addTaskInput.value;
 
+    // Check if inputted task already exists
+    if (checkRepeatedName(taskName) == 1) {
+      alert("Such task already exists!");
+
+      // Reset input text
+      addTaskInput.value = "";
+
+      return;
+    }
+
     // Reset input text
     addTaskInput.value = "";
 
@@ -98,7 +119,7 @@ export function loadTasks() {
 
     // Add task to project's array
     const projectIndex = getProjectIndex(projectTitle.className);
-    projects[projectIndex].tasks.push(taskName);
+    projects[projectIndex].tasks[taskName] = taskName;
 
     // Add task priority
     const taskPriority = document.createElement("div");
@@ -110,6 +131,7 @@ export function loadTasks() {
 
     // Event listener to detect priority selected
     selectTag.addEventListener("input", (e) => {
+      // Add border
       e.target.value === "0"
         ? (newTask.style.borderLeft = "0.6vw solid transparent")
         : e.target.value === "1"
@@ -117,7 +139,36 @@ export function loadTasks() {
         : e.target.value === "2"
         ? (newTask.style.borderLeft = "0.6vw solid orange")
         : (newTask.style.borderLeft = "0.6vw solid #F05E16");
+
+      console.log("e target: " + e.target.value);
+
+      // Set task priority on 'projects' priority object
+      projects[getProjectIndex(projectTitle.className)].priority[taskIndex] =
+        e.target.value;
     });
+
+    console.log("PROJINDEX: " + getProjectIndex(projectTitle.className));
+    console.log("TASKINDEX: " + taskIndex);
+
+    // Add task's priority if it was previously selected
+    if (projects[getProjectIndex(projectTitle.className)].priority[taskIndex]) {
+      projects[getProjectIndex(projectTitle.className)].priority[taskIndex] ===
+      "0"
+        ? ((newTask.style.borderLeft = "0.6vw solid transparent"),
+          (selectTag.value = 0))
+        : projects[getProjectIndex(projectTitle.className)].priority[
+            taskIndex
+          ] === "1"
+        ? ((newTask.style.borderLeft = "0.6vw solid #f2ee00"),
+          (selectTag.value = 1))
+        : projects[getProjectIndex(projectTitle.className)].priority[
+            taskIndex
+          ] === "2"
+        ? ((newTask.style.borderLeft = "0.6vw solid orange"),
+          (selectTag.value = 2))
+        : ((newTask.style.borderLeft = "0.6vw solid #F05E16"),
+          (selectTag.value = 3));
+    }
 
     const priorityOption = document.createElement("option");
     priorityOption.value = "0";
@@ -170,8 +221,12 @@ export function loadTasks() {
       var taskIndex = Array.prototype.indexOf.call(parent.children, child);
 
       // Remove task from array
-      projects[projectIndex].tasks.splice(taskIndex, 1);
+      delete projects[projectIndex].tasks[taskName];
       console.log(projects);
+
+      // Reset task priority
+      projects[getProjectIndex(projectTitle.className)].priority[taskIndex] =
+        "0";
 
       // Remove task from screen and div
       newTask.remove();
