@@ -90,20 +90,15 @@ export function loadTasks() {
     newTaskCheckbox.id = "cb" + cbCount;
     newTaskCheckboxContainer.appendChild(newTaskCheckbox);
 
-    // Get current task index
-    let child = newTask;
-    let parent = child.parentNode;
-    let taskIndex = Array.prototype.indexOf.call(parent.children, child);
-
     newTaskCheckbox.addEventListener("click", () => {
       if (
-        projects[getProjectIndex(projectTitle.className)].checked[taskIndex] ==
+        projects[getProjectIndex(projectTitle.className)].checked[taskName] ==
         "yes"
       ) {
-        projects[getProjectIndex(projectTitle.className)].checked[taskIndex] =
+        projects[getProjectIndex(projectTitle.className)].checked[taskName] =
           "no";
       } else {
-        projects[getProjectIndex(projectTitle.className)].checked[taskIndex] =
+        projects[getProjectIndex(projectTitle.className)].checked[taskName] =
           "yes";
       }
     });
@@ -140,29 +135,24 @@ export function loadTasks() {
         ? (newTask.style.borderLeft = "0.6vw solid orange")
         : (newTask.style.borderLeft = "0.6vw solid #F05E16");
 
-      console.log("e target: " + e.target.value);
-
       // Set task priority on 'projects' priority object
-      projects[getProjectIndex(projectTitle.className)].priority[taskIndex] =
+      projects[getProjectIndex(projectTitle.className)].priority[taskName] =
         e.target.value;
     });
 
-    console.log("PROJINDEX: " + getProjectIndex(projectTitle.className));
-    console.log("TASKINDEX: " + taskIndex);
-
     // Add task's priority if it was previously selected
-    if (projects[getProjectIndex(projectTitle.className)].priority[taskIndex]) {
-      projects[getProjectIndex(projectTitle.className)].priority[taskIndex] ===
+    if (projects[getProjectIndex(projectTitle.className)].priority[taskName]) {
+      projects[getProjectIndex(projectTitle.className)].priority[taskName] ===
       "0"
         ? ((newTask.style.borderLeft = "0.6vw solid transparent"),
           (selectTag.value = 0))
         : projects[getProjectIndex(projectTitle.className)].priority[
-            taskIndex
+            taskName
           ] === "1"
         ? ((newTask.style.borderLeft = "0.6vw solid #f2ee00"),
           (selectTag.value = 1))
         : projects[getProjectIndex(projectTitle.className)].priority[
-            taskIndex
+            taskName
           ] === "2"
         ? ((newTask.style.borderLeft = "0.6vw solid orange"),
           (selectTag.value = 2))
@@ -197,13 +187,7 @@ export function loadTasks() {
     newTask.appendChild(taskDueDate);
 
     taskDueDate.addEventListener("input", () => {
-      projects[projectTitle.className].dueDate[taskIndex] = taskDueDate.value;
-
-      console.log(
-        "DueDate assigned: " + projects[projectTitle.className].dueDate
-      );
-      console.log("At proj index: " + projectTitle.className);
-      console.log("At TASK index: " + taskIndex);
+      projects[projectTitle.className].dueDate[taskName] = taskDueDate.value;
     });
 
     // Add task closing icon
@@ -214,18 +198,11 @@ export function loadTasks() {
 
     // Task closing event listener
     taskClosingIcon.addEventListener("click", () => {
-      let child = newTask;
-      let parent = child.parentNode;
-
-      // Get task index
-      var taskIndex = Array.prototype.indexOf.call(parent.children, child);
-
       // Remove task from array
       delete projects[projectIndex].tasks[taskName];
-      console.log(projects);
 
       // Reset task priority
-      projects[getProjectIndex(projectTitle.className)].priority[taskIndex] =
+      projects[getProjectIndex(projectTitle.className)].priority[taskName] =
         "0";
 
       // Remove task from screen and div

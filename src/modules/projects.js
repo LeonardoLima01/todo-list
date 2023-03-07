@@ -134,11 +134,6 @@ export function loadProjects() {
 
     // Closing icon event listener
     projectClosingIcon.addEventListener("click", () => {
-      console.log(
-        "Removing project at index: " +
-          getProjectIndex(newProjectPreview.className)
-      );
-
       projects.splice(getProjectIndex(newProjectPreview.className), 1);
       newProjectContainer.remove();
 
@@ -149,16 +144,10 @@ export function loadProjects() {
       if (!projectsPreview.firstChild) {
         projectsPreview.style.display = "none";
       }
-      console.log(
-        "Projects array after deleting project: " + JSON.stringify(projects)
-      );
     });
 
     // Add event listener to display project on screen
     newProjectPreview.addEventListener("click", () => {
-      console.log("ProjID: " + newProjectPreview.className);
-      console.log("FunctID: " + getProjectIndex(newProjectPreview.className));
-
       addTaskForm.style.display = "none";
       content.style.display = "flex";
       projectTitle.style.display = "flex";
@@ -175,21 +164,12 @@ export function loadProjects() {
         // Clear all previous added tasks
         removeAllChildNodes(projectTasks);
 
-        // project
-        console.log(
-          Object.values(
-            projects[getProjectIndex(newProjectPreview.className)].tasks
-          )
-        );
-
         // Number used to create unique ids for each checkbox to be referenced by the label
         let cbCount = 0;
 
         for (let task of Object.values(
           projects[getProjectIndex(newProjectPreview.className)].tasks
         )) {
-          console.log("task: " + task);
-
           // Get task name
           const taskName = task;
 
@@ -211,11 +191,6 @@ export function loadProjects() {
 
           // Task event listener
           newTaskCheckbox.addEventListener("click", () => {
-            console.log("box clicked");
-            console.log("project index being marked: ", projectTitle.className);
-            console.log("task index being marked:", taskName);
-            console.log(projects);
-
             // If it's the first time being clicked, add yes (checked)
             if (
               projects[getProjectIndex(projectTitle.className)].checked[
@@ -237,14 +212,6 @@ export function loadProjects() {
                   ] = "yes");
             }
           });
-          console.log(
-            "PROJECT TITLE: " +
-              newTask.parentNode.parentNode.firstChild.textContent
-          );
-
-          console.log(
-            projects[getProjectIndex(projectTitle.className)].checked
-          );
 
           // Check if current checkbox being displayed was checked before, if so display it checked
           if (
@@ -303,16 +270,11 @@ export function loadProjects() {
               ? (newTask.style.borderLeft = "0.6vw solid orange")
               : (newTask.style.borderLeft = "0.6vw solid #F05E16");
 
-            console.log("e target: " + e.target.value);
-
             // Set task priority on 'projects' priority object
             projects[getProjectIndex(projectTitle.className)].priority[
               taskName
             ] = e.target.value;
           });
-
-          console.log("PROJINDEX: " + getProjectIndex(projectTitle.className));
-          console.log("taskName: " + taskName);
 
           // Add task's priority if it was previously selected
           if (
@@ -347,15 +309,6 @@ export function loadProjects() {
             projects[getProjectIndex(projectTitle.className)].dueDate[
               taskName
             ] = taskDueDate.value;
-
-            console.log(
-              "DueDate assigned: " +
-                projects[getProjectIndex(projectTitle.className)].dueDate
-            );
-            console.log(
-              "At proj index: " + getProjectIndex(projectTitle.className)
-            );
-            console.log("At TASK index: " + taskName);
           });
 
           // Check if task already has a due date set
@@ -386,8 +339,6 @@ export function loadProjects() {
               taskName
             ] = "0";
 
-            console.log(projects);
-
             // Remove task from screen and div
             newTask.remove();
           });
@@ -396,7 +347,6 @@ export function loadProjects() {
         // Clear all previous added tasks
         removeAllChildNodes(projectTasks);
       }
-      console.log(projects);
     });
 
     // All tasks event listener
@@ -422,10 +372,6 @@ export function loadProjects() {
           // Get task name
           const taskName = name;
 
-          console.log("current project: " + projects[projectI].name);
-          console.log("current task: " + projects[projectI].tasks[taskName]);
-          console.log("current newTaskClass: " + taskName);
-
           // Checkbox container
           const newTaskCheckboxContainer = document.createElement("div");
           newTaskCheckboxContainer.id = "newTaskCheckboxContainer";
@@ -436,8 +382,6 @@ export function loadProjects() {
           newTaskCheckbox.id = "cb" + cbCount;
           newTaskCheckboxContainer.appendChild(newTaskCheckbox);
 
-          console.log(projects);
-
           // Add task name div to task
           const newTaskName = document.createElement("label");
           newTaskName.id = "newTaskName";
@@ -445,16 +389,12 @@ export function loadProjects() {
           newTaskName.textContent = taskName;
           newTaskCheckboxContainer.appendChild(newTaskName);
 
-          console.log(Object.keys(projects[projectI].checked));
-
           // Update 'projects' checked object
           newTaskCheckbox.addEventListener("click", () => {
             // Check if current checkbox being displayed was checked before, if so display it checked
             projects[projectI].checked[taskName] == "yes"
               ? (projects[projectI].checked[taskName] = "no")
               : (projects[projectI].checked[taskName] = "yes");
-
-            console.log(projects[projectI]);
           });
 
           // Update checkbox 'checked' state if it's checked
@@ -501,14 +441,9 @@ export function loadProjects() {
               ? (newTask.style.borderLeft = "0.6vw solid orange")
               : (newTask.style.borderLeft = "0.6vw solid #F05E16");
 
-            console.log("e target: " + e.target.value);
-
             // Set task priority on 'projects' priority object
             projects[projectI].priority[taskName] = e.target.value;
           });
-
-          console.log("PROJINDEX: " + projectI);
-          console.log("newTaskClass2: " + taskName);
 
           // Add task's priority if it was previously selected
           if (projects[projectI].priority[taskName]) {
@@ -542,135 +477,115 @@ export function loadProjects() {
     todayOption.addEventListener("click", () => {
       // Clear all previous added tasks
       removeAllChildNodes(projectTasks);
-
       // Hide project title
       projectTitle.style.display = "none";
 
       // Hide button to add tasks
       addTaskButton.style.display = "none";
 
+      // Number to be added to checkboxes id to make them unique to be referenced by the label
+      let cbCount = 0;
+
       for (let projectI in projects) {
-        // Get dueDate object length
-        let length = Object.keys(projects[projectI].dueDate).length;
+        for (let name of Object.values(projects[projectI].tasks)) {
+          if (projects[projectI].dueDate[name] == today) {
+            // Create task
+            const newTask = document.createElement("div");
+            newTask.id = "newTask";
+            projectTasks.appendChild(newTask);
 
-        for (let i = 0; i < length; i++) {
-          for (let name of Object.values(projects[projectI].tasks)) {
-            if (projects[projectI].dueDate[i] == today) {
-              // Get task name
-              const taskName = name;
+            // Get task name
+            const taskName = name;
 
-              // Create task
-              const newTask = document.createElement("div");
-              newTask.id = "newTask";
-              projectTasks.appendChild(newTask);
+            // Checkbox container
+            const newTaskCheckboxContainer = document.createElement("div");
+            newTaskCheckboxContainer.id = "newTaskCheckboxContainer";
+            newTask.appendChild(newTaskCheckboxContainer);
 
-              // Checkbox container
-              const newTaskCheckboxContainer = document.createElement("div");
-              newTaskCheckboxContainer.id = "newTaskCheckboxContainer";
-              newTask.appendChild(newTaskCheckboxContainer);
+            const newTaskCheckbox = document.createElement("input");
+            newTaskCheckbox.type = "checkbox";
+            newTaskCheckbox.id = "cb" + cbCount;
+            newTaskCheckboxContainer.appendChild(newTaskCheckbox);
 
-              const newTaskCheckbox = document.createElement("input");
-              newTaskCheckbox.type = "checkbox";
-              newTaskCheckbox.id = "cb" + cbCount;
-              newTaskCheckboxContainer.appendChild(newTaskCheckbox);
+            // Add task name div to task
+            const newTaskName = document.createElement("label");
+            newTaskName.id = "newTaskName";
+            newTaskName.htmlFor = "cb" + cbCount;
+            newTaskName.textContent = taskName;
+            newTaskCheckboxContainer.appendChild(newTaskName);
 
-              newTaskCheckbox.addEventListener("click", () => {
-                if (
-                  projects[projectTitle.className].checked[taskName] == "yes"
-                ) {
-                  projects[projectTitle.className].checked[taskName] = "no";
-                } else {
-                  projects[projectTitle.className].checked[taskName] = "yes";
-                }
-              });
-
+            // Update 'projects' checked object
+            newTaskCheckbox.addEventListener("click", () => {
               // Check if current checkbox being displayed was checked before, if so display it checked
-              if (projects[projectTitle.className].checked[taskName] == "yes") {
-                newTaskCheckbox.checked = true;
-              }
+              projects[projectI].checked[taskName] == "yes"
+                ? (projects[projectI].checked[taskName] = "no")
+                : (projects[projectI].checked[taskName] = "yes");
+            });
 
-              // Add task name div to task
-              const newTaskName = document.createElement("label");
-              newTaskName.id = "newTaskName";
-              newTaskName.htmlFor = "cb" + cbCount;
-              newTaskName.textContent = taskName;
-              newTaskCheckboxContainer.appendChild(newTaskName);
-
-              cbCount++;
+            // Update checkbox 'checked' state if it's checked
+            if (projects[projectI].checked[taskName] == "yes") {
+              newTaskCheckbox.checked = true;
             }
+
+            // Add task priority
+            const taskPriority = document.createElement("div");
+            taskPriority.id = "taskPriority";
+            newTask.appendChild(taskPriority);
+
+            const selectTag = document.createElement("select");
+            taskPriority.appendChild(selectTag);
+
+            const priorityOption = document.createElement("option");
+            priorityOption.value = "0";
+            priorityOption.textContent = "Priority";
+            selectTag.appendChild(priorityOption);
+
+            const lowOption = document.createElement("option");
+            lowOption.value = "1";
+            lowOption.textContent = "Low";
+            selectTag.appendChild(lowOption);
+
+            const mediumOption = document.createElement("option");
+            mediumOption.value = "2";
+            mediumOption.textContent = "Medium";
+            selectTag.appendChild(mediumOption);
+
+            const highOption = document.createElement("option");
+            highOption.value = "3";
+            highOption.textContent = "High";
+            selectTag.appendChild(highOption);
+
+            // Event listener to detect priority selected
+            selectTag.addEventListener("input", (e) => {
+              // Add border
+              e.target.value === "0"
+                ? (newTask.style.borderLeft = "0.6vw solid transparent")
+                : e.target.value === "1"
+                ? (newTask.style.borderLeft = "0.6vw solid #f2ee00")
+                : e.target.value === "2"
+                ? (newTask.style.borderLeft = "0.6vw solid orange")
+                : (newTask.style.borderLeft = "0.6vw solid #F05E16");
+
+              // Set task priority on 'projects' priority object
+              projects[projectI].priority[taskName] = e.target.value;
+            });
+
+            // Add task's priority if it was previously selected
+            if (projects[projectI].priority[taskName]) {
+              projects[projectI].priority[taskName] === "0"
+                ? ((newTask.style.borderLeft = "0.6vw solid transparent"),
+                  (selectTag.value = 0))
+                : projects[projectI].priority[taskName] === "1"
+                ? ((newTask.style.borderLeft = "0.6vw solid #f2ee00"),
+                  (selectTag.value = 1))
+                : projects[projectI].priority[taskName] === "2"
+                ? ((newTask.style.borderLeft = "0.6vw solid orange"),
+                  (selectTag.value = 2))
+                : ((newTask.style.borderLeft = "0.6vw solid #F05E16"),
+                  (selectTag.value = 3));
+            }
+            cbCount++;
           }
-        }
-
-        // Add task priority
-        const taskPriority = document.createElement("div");
-        taskPriority.id = "taskPriority";
-        newTask.appendChild(taskPriority);
-
-        const selectTag = document.createElement("select");
-        taskPriority.appendChild(selectTag);
-
-        const priorityOption = document.createElement("option");
-        priorityOption.value = "0";
-        priorityOption.textContent = "Priority";
-        selectTag.appendChild(priorityOption);
-
-        const lowOption = document.createElement("option");
-        lowOption.value = "1";
-        lowOption.textContent = "Low";
-        selectTag.appendChild(lowOption);
-
-        const mediumOption = document.createElement("option");
-        mediumOption.value = "2";
-        mediumOption.textContent = "Medium";
-        selectTag.appendChild(mediumOption);
-
-        const highOption = document.createElement("option");
-        highOption.value = "3";
-        highOption.textContent = "High";
-        selectTag.appendChild(highOption);
-
-        // Event listener to detect priority selected
-        selectTag.addEventListener("input", (e) => {
-          // Add border
-          e.target.value === "0"
-            ? (newTask.style.borderLeft = "0.6vw solid transparent")
-            : e.target.value === "1"
-            ? (newTask.style.borderLeft = "0.6vw solid #f2ee00")
-            : e.target.value === "2"
-            ? (newTask.style.borderLeft = "0.6vw solid orange")
-            : (newTask.style.borderLeft = "0.6vw solid #F05E16");
-
-          console.log("e target: " + e.target.value);
-
-          // Set task priority on 'projects' priority object
-          projects[getProjectIndex(projectTitle.className)].priority[taskName] =
-            e.target.value;
-        });
-
-        console.log("PROJINDEX: " + getProjectIndex(projectTitle.className));
-        console.log("taskName: " + taskName);
-
-        // Add task's priority if it was previously selected
-        if (
-          projects[getProjectIndex(projectTitle.className)].priority[taskName]
-        ) {
-          projects[getProjectIndex(projectTitle.className)].priority[
-            taskName
-          ] === "0"
-            ? ((newTask.style.borderLeft = "0.6vw solid transparent"),
-              (selectTag.value = 0))
-            : projects[getProjectIndex(projectTitle.className)].priority[
-                taskName
-              ] === "1"
-            ? ((newTask.style.borderLeft = "0.6vw solid #f2ee00"),
-              (selectTag.value = 1))
-            : projects[getProjectIndex(projectTitle.className)].priority[
-                taskName
-              ] === "2"
-            ? ((newTask.style.borderLeft = "0.6vw solid orange"),
-              (selectTag.value = 2))
-            : ((newTask.style.borderLeft = "0.6vw solid #F05E16"),
-              (selectTag.value = 3));
         }
       }
     });
@@ -688,72 +603,121 @@ export function loadProjects() {
       // Hide button to add tasks
       addTaskButton.style.display = "none";
 
-      for (let project of projects) {
-        // Get dueDate object length
-        let length = Object.keys(project.dueDate).length;
-        for (let i = 0; i < length; i++) {
-          let dueDateYear = project.dueDate[i].split("-")[0];
-          let dueDateMonth = project.dueDate[i].split("-")[1];
-          let dueDateDay = project.dueDate[i].split("-")[2];
+      // Number to be added to checkboxes id to make them unique to be referenced by the label
+      let cbCount = 0;
 
-          // If year and month are the same
-          if (dueDateYear == yyyy && dueDateMonth == mm) {
-            // Check if day is equal or >= today + 7 days
+      for (let projectI in projects) {
+        for (let name of Object.values(projects[projectI].tasks)) {
+          if (projects[projectI].dueDate[name] == today) {
+            let dueDateYear = projects[projectI].dueDate[name].split("-")[0];
+            let dueDateMonth = projects[projectI].dueDate[name].split("-")[1];
+            let dueDateDay = projects[projectI].dueDate[name].split("-")[2];
 
-            console.log("due Year " + dueDateYear);
-            console.log("due Month " + dueDateMonth);
-            console.log("due Day " + dueDateDay);
-            console.log("dd: " + dd);
+            // If year and month are the same
+            if (dueDateYear == yyyy && dueDateMonth == mm) {
+              // Check if day is equal or >= today + 7 days
+              if (dueDateDay >= dd && dueDateDay <= +dd + 7) {
+                // Create task
+                const newTask = document.createElement("div");
+                newTask.id = "newTask";
+                projectTasks.appendChild(newTask);
 
-            if (dueDateDay >= dd && dueDateDay <= +dd + 7) {
-              console.log("APPROVE");
-              // Get task name
-              const taskName = project.tasks[getTaskNameAtIndex(i)];
+                // Get task name
+                const taskName = name;
 
-              // Create task
-              const newTask = document.createElement("div");
-              newTask.id = "newTask";
-              projectTasks.appendChild(newTask);
+                // Checkbox container
+                const newTaskCheckboxContainer = document.createElement("div");
+                newTaskCheckboxContainer.id = "newTaskCheckboxContainer";
+                newTask.appendChild(newTaskCheckboxContainer);
 
-              // Checkbox container
-              const newTaskCheckboxContainer = document.createElement("div");
-              newTaskCheckboxContainer.id = "newTaskCheckboxContainer";
-              newTask.appendChild(newTaskCheckboxContainer);
+                const newTaskCheckbox = document.createElement("input");
+                newTaskCheckbox.type = "checkbox";
+                newTaskCheckbox.id = "cb" + cbCount;
+                newTaskCheckboxContainer.appendChild(newTaskCheckbox);
 
-              const newTaskCheckbox = document.createElement("input");
-              newTaskCheckbox.type = "checkbox";
-              newTaskCheckbox.id = "cb" + cbCount;
-              newTaskCheckboxContainer.appendChild(newTaskCheckbox);
+                // Add task name div to task
+                const newTaskName = document.createElement("label");
+                newTaskName.id = "newTaskName";
+                newTaskName.htmlFor = "cb" + cbCount;
+                newTaskName.textContent = taskName;
+                newTaskCheckboxContainer.appendChild(newTaskName);
 
-              newTaskCheckbox.addEventListener("click", () => {
-                if (
-                  projects[projectTitle.className].checked[taskName] == "yes"
-                ) {
-                  projects[projectTitle.className].checked[taskName] = "no";
-                } else {
-                  projects[projectTitle.className].checked[taskName] = "yes";
+                // Update 'projects' checked object
+                newTaskCheckbox.addEventListener("click", () => {
+                  // Check if current checkbox being displayed was checked before, if so display it checked
+                  projects[projectI].checked[taskName] == "yes"
+                    ? (projects[projectI].checked[taskName] = "no")
+                    : (projects[projectI].checked[taskName] = "yes");
+                });
+
+                // Update checkbox 'checked' state if it's checked
+                if (projects[projectI].checked[taskName] == "yes") {
+                  newTaskCheckbox.checked = true;
                 }
-              });
 
-              // Check if current checkbox being displayed was checked before, if so display it checked
-              if (projects[projectTitle.className].checked[taskName] == "yes") {
-                newTaskCheckbox.checked = true;
+                // Add task priority
+                const taskPriority = document.createElement("div");
+                taskPriority.id = "taskPriority";
+                newTask.appendChild(taskPriority);
+
+                const selectTag = document.createElement("select");
+                taskPriority.appendChild(selectTag);
+
+                const priorityOption = document.createElement("option");
+                priorityOption.value = "0";
+                priorityOption.textContent = "Priority";
+                selectTag.appendChild(priorityOption);
+
+                const lowOption = document.createElement("option");
+                lowOption.value = "1";
+                lowOption.textContent = "Low";
+                selectTag.appendChild(lowOption);
+
+                const mediumOption = document.createElement("option");
+                mediumOption.value = "2";
+                mediumOption.textContent = "Medium";
+                selectTag.appendChild(mediumOption);
+
+                const highOption = document.createElement("option");
+                highOption.value = "3";
+                highOption.textContent = "High";
+                selectTag.appendChild(highOption);
+
+                // Event listener to detect priority selected
+                selectTag.addEventListener("input", (e) => {
+                  // Add border
+                  e.target.value === "0"
+                    ? (newTask.style.borderLeft = "0.6vw solid transparent")
+                    : e.target.value === "1"
+                    ? (newTask.style.borderLeft = "0.6vw solid #f2ee00")
+                    : e.target.value === "2"
+                    ? (newTask.style.borderLeft = "0.6vw solid orange")
+                    : (newTask.style.borderLeft = "0.6vw solid #F05E16");
+
+                  // Set task priority on 'projects' priority object
+                  projects[projectI].priority[taskName] = e.target.value;
+                });
+
+                // Add task's priority if it was previously selected
+                if (projects[projectI].priority[taskName]) {
+                  projects[projectI].priority[taskName] === "0"
+                    ? ((newTask.style.borderLeft = "0.6vw solid transparent"),
+                      (selectTag.value = 0))
+                    : projects[projectI].priority[taskName] === "1"
+                    ? ((newTask.style.borderLeft = "0.6vw solid #f2ee00"),
+                      (selectTag.value = 1))
+                    : projects[projectI].priority[taskName] === "2"
+                    ? ((newTask.style.borderLeft = "0.6vw solid orange"),
+                      (selectTag.value = 2))
+                    : ((newTask.style.borderLeft = "0.6vw solid #F05E16"),
+                      (selectTag.value = 3));
+                }
+                cbCount++;
               }
-
-              // Add task name div to task
-              const newTaskName = document.createElement("label");
-              newTaskName.id = "newTaskName";
-              newTaskName.htmlFor = "cb" + cbCount;
-              newTaskName.textContent = taskName;
-              newTaskCheckboxContainer.appendChild(newTaskName);
-
-              cbCount++;
             }
           }
         }
       }
     });
-
-    console.log(projects);
   });
 }

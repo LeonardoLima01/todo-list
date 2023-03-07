@@ -182,6 +182,7 @@ body {
 
 .fa-xmark:hover {
   color: rgb(255, 153, 0);
+  cursor: pointer;
 }
 
 #projectClosingIcon {
@@ -411,7 +412,7 @@ body {
 #newTaskCheckboxContainer input[type="checkbox"]:checked + label::before {
   background-color: rgb(51, 224, 16);
   border: 2px solid rgb(51, 224, 16);
-  background-image: url(../src/modules/img/check.png);
+  background-image: url(../src/img/check.png);
   background-position: center;
   background-size: cover;
 }
