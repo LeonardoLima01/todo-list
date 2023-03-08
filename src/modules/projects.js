@@ -36,9 +36,6 @@ export function loadProjects() {
   const addProjectButton = document.querySelector("#addProjectButton");
   const addProjectInput = document.querySelector("#addProjectInput");
   const addProjectForm = document.querySelector("#addProjectForm");
-  const addProjectInputButton = document.querySelector(
-    "#addProjectInputButton"
-  );
   const cancelProjectInputButton = document.querySelector(
     "#cancelProjectInputButton"
   );
