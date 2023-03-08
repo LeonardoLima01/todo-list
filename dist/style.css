@@ -240,6 +240,7 @@ body {
   border: 0;
   background-color: transparent;
   transition: background-color 0.5s;
+  cursor: pointer;
 }
 
 #addTaskButton:hover {
@@ -307,12 +308,14 @@ body {
   border-radius: 5px;
   border: 2px solid black;
   font-size: 1.25vw;
+  cursor: pointer;
 }
 
 #taskDueDate {
   font-size: 1.25vw;
   border-radius: 5px;
   border: 2px solid black;
+  cursor: pointer;
 }
 
 #taskClosingIcon {
