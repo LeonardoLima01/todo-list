@@ -19,7 +19,6 @@ body {
 
 #header {
   display: flex;
-  min-height: 8vh;
   align-items: center;
   background-color: rgb(104, 104, 104);
 }
@@ -199,13 +198,12 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
   background-color: white;
 }
 
 #projectDisplay {
   width: 85%;
-  height: 85%;
+  padding: 4vh;
   display: flex;
   flex-direction: column;
 }
@@ -215,7 +213,7 @@ body {
   width: 100%;
   display: flex;
   align-items: center;
-  font-size: 8vw;
+  font-size: 4vw;
   margin-bottom: 2vw;
 }
 
