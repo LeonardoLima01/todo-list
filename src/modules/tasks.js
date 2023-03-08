@@ -205,6 +205,12 @@ export function loadTasks() {
       projects[getProjectIndex(projectTitle.className)].priority[taskName] =
         "0";
 
+      // Reset task due date
+      projects[getProjectIndex(projectTitle.className)].dueDate[taskName] = "";
+
+      // Reset task checked state
+      projects[getProjectIndex(projectTitle.className)].checked[taskName] = "";
+
       // Remove task from screen and div
       newTask.remove();
     });
