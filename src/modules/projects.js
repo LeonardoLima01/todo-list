@@ -67,6 +67,9 @@ export function loadProjects() {
     addProjectInput.value = "";
   });
 
+  if (localStorage.getItem("projects")) {
+  }
+
   // Add project submit
   addProjectForm.addEventListener("submit", (e) => {
     e.preventDefault(); // Prevent form from auto submitting
@@ -652,8 +655,6 @@ export function loadProjects() {
     cbCount = 0;
 
     weekOption.addEventListener("click", () => {
-      console.log("sas");
-
       // Clear all previous added tasks
       removeAllChildNodes(projectTasks);
 
@@ -671,16 +672,6 @@ export function loadProjects() {
           let dueDateYear = projects[projectI].dueDate[name].split("-")[0];
           let dueDateMonth = projects[projectI].dueDate[name].split("-")[1];
           let dueDateDay = projects[projectI].dueDate[name].split("-")[2];
-
-          console.log("sas");
-          console.log(projects);
-          console.log("dueDateYear: ", dueDateYear);
-          console.log("dueDateMonth: ", dueDateMonth);
-          console.log("dueDateDay: ", dueDateDay);
-
-          console.log("yyyy: ", yyyy);
-          console.log("mm: ", mm);
-          console.log("dd: ", dd);
 
           // If year and month are the same
           if (dueDateYear == yyyy && dueDateMonth == mm) {
