@@ -289,6 +289,14 @@ body {
   visibility: visible;
 }
 
+#newTask:hover #taskPriority > select {
+  visibility: visible;
+}
+
+#newTask:hover #taskDueDate {
+  visibility: visible;
+}
+
 #newTaskName {
   font-size: 2vw;
   display: flex;
@@ -309,6 +317,7 @@ body {
   border: 2px solid black;
   font-size: 1.25vw;
   cursor: pointer;
+  visibility: hidden;
 }
 
 #taskDueDate {
@@ -316,6 +325,7 @@ body {
   border-radius: 5px;
   border: 2px solid black;
   cursor: pointer;
+  visibility: hidden;
 }
 
 #taskClosingIcon {
