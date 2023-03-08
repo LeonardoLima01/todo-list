@@ -410,7 +410,7 @@ body {
 #newTaskCheckboxContainer input[type="checkbox"]:checked + label::before {
   background-color: rgb(51, 224, 16);
   border: 2px solid rgb(51, 224, 16);
-  background-image: url(../src/img/check.png);
+  background-image: url(./img/check.png);
   background-position: center;
   background-size: cover;
 }
