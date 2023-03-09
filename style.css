@@ -427,14 +427,3 @@ body {
   background-position: center;
   background-size: cover;
 }
-
-#editTaskIcon {
-  font-size: 1.75vw;
-  margin-left: 2vw;
-  transition: color 0.5s;
-  cursor: pointer;
-}
-
-#editTaskIcon:hover {
-  color: orange;
-}
