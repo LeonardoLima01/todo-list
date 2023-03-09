@@ -1,3 +1,5 @@
+import { NoEmitOnErrorsPlugin } from "webpack";
+
 // Project's object constructor
 function Project(name, id) {
   return {
@@ -63,9 +65,6 @@ export function loadProjects() {
 
     addProjectInput.value = "";
   });
-
-  if (localStorage.getItem("projects")) {
-  }
 
   // Add project submit
   addProjectForm.addEventListener("submit", (e) => {
